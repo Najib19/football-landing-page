@@ -8,7 +8,14 @@ export function Reveal({ children, delay = 0, className = '' }: { children: Reac
   const isInView = useInView(ref, { once: true, margin: '-10%' });
 
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 24 }} animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }} transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }} className={className}>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 24 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
+      // Tambahan deklarasi array 4 angka di bawah ini
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] as [number, number, number, number], delay }}
+      className={className}
+    >
       {children}
     </motion.div>
   );
@@ -18,7 +25,6 @@ export function StaggerGroup({ children, className = '' }: { children: React.Rea
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-10%' });
 
-  // Menambahkan tipe data : Variants di sini
   const container: Variants = {
     hidden: { opacity: 0 },
     show: {
@@ -35,10 +41,17 @@ export function StaggerGroup({ children, className = '' }: { children: React.Rea
 }
 
 export function StaggerItem({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  // Menambahkan tipe data : Variants di sini
   const item: Variants = {
     hidden: { opacity: 0, y: 24 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        // Tambahan deklarasi array 4 angka di bawah ini agar TypeScript tidak protes
+        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
+      },
+    },
   };
 
   return (
